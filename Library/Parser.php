@@ -23,6 +23,14 @@ class Parser
         ];
     }
 
+    public function clear()
+    {
+        $this->rawCommand = '';
+        $this->command = '';
+        $this->options = [];
+        $this->arguments = [];
+    }
+
     private function parseOptions()
     {
         preg_match_all(
@@ -100,14 +108,6 @@ class Parser
     private function removeBrackets(string $string)
     {
         return substr($string, 1, -1);
-    }
-
-    public function clear()
-    {
-        $this->rawCommand = '';
-        $this->command = '';
-        $this->options = [];
-        $this->arguments = [];
     }
 
 }

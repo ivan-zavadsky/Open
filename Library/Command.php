@@ -1,35 +1,26 @@
 <?php
 
-class Command
+abstract class Command
 {
     public string $name;
     public string $description;
-    public Parser $parser;
+    public Storage $storage;
 
-    public function __construct(Parser $parser)
+    public function __construct(Storage $storage)
     {
-        $this->parser = $parser;
+        $this->storage = $storage;
     }
 
-    public function execute($arguments, $options)
-    {
+    abstract public function execute($arguments, $options);
 
-    }
+    abstract protected function isValid($args, $params);
 
-    public function getCommands()
-    {
-        return json_decode(file_get_contents('db.txt'), true) ?? [];
-    }
-
-    public function putCommands($commands)
-    {
-        file_put_contents('db.txt', json_encode($commands));
-    }
+    abstract protected function parseArguments($args, $params);
 
     protected function isRegistered($name)
     {
-        $commands = $this->getCommands();
-        if (!array_key_exists($name, $commands)/*false*/) {
+        $commands = $this->storage->getCommands();
+        if (!array_key_exists($name, $commands)) {
             echo "Command $name is not registered\n";
             return false;
         }

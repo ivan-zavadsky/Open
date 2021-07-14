@@ -4,13 +4,12 @@ class Setname extends Command
 {
     public function execute($args, $params)
     {
-        if (!$this->validate($args, $params)) {
+        if (!$this->isValid($args, $params)) {
             return;
         }
-
         list($oldName, $newName) = $this->parseArguments($args, $params);
-        $commands = $this->getCommands();
 
+        $commands = $this->getCommands();
         foreach ($commands as $name => $description) {
             if ($name == $oldName) {
                 $commands[$newName] = $description;
@@ -20,11 +19,9 @@ class Setname extends Command
                 break;
             }
         }
-        $this->parser->clear();
-
     }
 
-    protected function validate($args, $params)
+    protected function isValid($args, $params)
     {
         if (
             !($oldName = $args[0])
