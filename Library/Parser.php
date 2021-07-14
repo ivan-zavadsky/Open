@@ -2,7 +2,6 @@
 
 class Parser
 {
-//command_name {verbose,overwrite} [log_file=app.log] {unlimited} [methods={create,update,delete}] [paginate=50] {log}
     public string $rawCommand;
     public string $command = '';
     public array $options = [];
@@ -75,8 +74,12 @@ class Parser
             $rawArguments
         );
         $rawArguments = $rawArguments[0];
+
         foreach ($rawArguments as $rawArgument) {
-            $this->arguments = array_merge($this->arguments, explode(',', $this->removeBrackets($rawArgument)));
+            $this->arguments = array_merge(
+                $this->arguments,
+                explode(',', $this->removeBrackets($rawArgument))
+            );
         }
     }
 
@@ -97,6 +100,14 @@ class Parser
     private function removeBrackets(string $string)
     {
         return substr($string, 1, -1);
+    }
+
+    public function clear()
+    {
+        $this->rawCommand = '';
+        $this->command = '';
+        $this->options = [];
+        $this->arguments = [];
     }
 
 }
