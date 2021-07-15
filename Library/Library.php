@@ -19,7 +19,7 @@ class Library extends Command
             fwrite(STDOUT, "Please, enter command:\n");
             $rawCommand = trim(fgets(STDIN));
             list($name, $arguments, $options) = $this->parseArguments($rawCommand);
-            $name = $name ?? 'help';
+            $name = (bool) $name ? $name : 'help';
 
             $command = $this->getCommandByName($name);
             if (

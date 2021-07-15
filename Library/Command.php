@@ -8,9 +8,7 @@ abstract class Command
 
     public function __construct(Storage $storage)
     {
-//        $this->name = strtolower(__CLASS__);
         $this->storage = $storage;
-//        $this->description = $this->storage->getCommands()[$this->name];
     }
 
     public function execute($arguments, $options)
@@ -26,7 +24,7 @@ abstract class Command
     protected function isExecutable($command)
     {
         if (!class_exists($command['class'])) {
-            echo "Class " . $command['class'] . "doesn't exist. Add the class to use the command\n";
+            echo "Class " . $command['class'] . " doesn't exist. Add the class to use the command\n";
             return false;
         }
 
