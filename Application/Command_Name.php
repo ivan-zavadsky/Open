@@ -7,12 +7,6 @@ class Command_Name extends Command
         echo $this->getView($arguments, $options);
     }
 
-    protected function config()
-    {
-        $this->name = 'Say Hi!';
-        $this->description = 'Says Hi';
-    }
-
     private function getView($arguments, $options)
     {
         $command = strtolower(__CLASS__);
@@ -40,5 +34,15 @@ class Command_Name extends Command
             . "Arguments:\n$argumentsOutput\n"
             . "Options:\n$optionsOutput\n";
 
+    }
+
+    protected function isValid($arguments, $options)
+    {
+        return true;
+    }
+
+    protected function parseArguments($arguments, $options)
+    {
+        return [];
     }
 }

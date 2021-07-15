@@ -18,16 +18,15 @@ class Library extends Command
             $this->parser->clear();
             fwrite(STDOUT, "Please, enter command:\n");
             $rawCommand = trim(fgets(STDIN));
-            if (!$this->isValid($rawCommand)) {
-                echo "Enter at least one symbol\n";
-                continue;
-            }
-            list($command, $arguments, $options) = $this->parseArguments($rawCommand);
+            list($name, $arguments, $options) = $this->parseArguments($rawCommand);
+            $name = $name ?? 'help';
+
+            $command = $this->getCommandByName($name);
             if (
-                $this->isRegistered($command)
+                $command
                 && $this->isExecutable($command)
             ) {
-                (new $command($this->storage))->execute($arguments, $options);
+                (new $command['class']($this->storage))->execute($arguments, $options);
             }
         }
         exit(self::STATUS_OK);
@@ -35,12 +34,21 @@ class Library extends Command
 
     protected function isValid($args, $params = '')
     {
-        return strlen($args) > 0;
+        return true;
     }
 
     protected function parseArguments($args, $params = '')
     {
         return $this->parser->parse($args);
+    }
+
+    protected function listRegistered()
+    {
+        $commands = $this->storage->getCommands();
+        echo "Registered commands:\n";
+        foreach ($commands as $name => $description) {
+            echo "* $name\n";
+        }
     }
 
 }

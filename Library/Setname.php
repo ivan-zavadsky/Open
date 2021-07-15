@@ -9,25 +9,32 @@ class Setname extends Command
         }
         list($oldName, $newName) = $this->parseArguments($args, $params);
 
-        $commands = $this->getCommands();
-        foreach ($commands as $name => $description) {
-            if ($name == $oldName) {
-                $commands[$newName] = $description;
-                unset($commands[$oldName]);
-                $this->putCommands($commands);
-                echo "New name set successfully\n";
-                break;
+        $commands = $this->storage->getCommands();
+        foreach ($commands as $key => $value) {
+            if ($oldName == $value['name']) {
+                $commands[] = [
+                    'name' => $newName,
+                    'class' => $value['class'],
+                    'description' =>$value['description'],
+                ];
+                unset($commands[$key]);
+                $this->storage->putCommands($commands);
+                return;
             }
         }
     }
 
     protected function isValid($args, $params)
     {
+        $oldName = $args[0];
+        $newName = $args[1];
+        $oldIsRegistered = (bool) $this->getCommandByName($oldName);
+        $newIsRegistered = (bool) $this->getCommandByName($newName);
         if (
-            !($oldName = $args[0])
-            || !($newName = $args[1])
-            || !$this->isRegistered($oldName)
-            || $this->isRegistered($newName)
+            !$oldName
+            || !$newName
+            || !$oldIsRegistered
+            || $newIsRegistered
         ) {
             echo "Validation fail\n";
             return false;
@@ -36,7 +43,7 @@ class Setname extends Command
         return true;
     }
 
-    protected function parseArguments($args, $params)
+    protected function parseArguments($args, $params):array
     {
         return [$args[0], $args[1]];
     }

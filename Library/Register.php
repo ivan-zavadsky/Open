@@ -2,26 +2,43 @@
 
 class Register extends Command
 {
-    private $errorMessage = "Command exists. Use another name\n";
-    private $successMessage = "Registered successfully\n";
+    private string $errorMessage = "Command exists. Use another name\n";
+    private string $successMessage = "Registered successfully\n";
 
     public function execute($arguments, $options)
     {
-        if (!$arguments || !$arguments[0]) {
-            echo "Command \"register\" should have one argument!\n";
+        if (!$this->isValid($arguments, $options)) {
+            echo "Registration validation error\n";
             return;
         }
-
-        $name = $arguments[0];
+        list($name, $class) = $this->parseArguments($arguments, $options);
+        $class = $class ?? $name;
         $description = '';
-        $commands = $this->getCommands();
+        $commands = $this->storage->getCommands();
 
-        if (!in_array($name, $commands)) {
-            $commands[$name] = $description;
-            $this->putCommands($commands);
-            echo $this->successMessage;
-        } else {
+        if ($this->getCommandByName($name)) {
             echo $this->errorMessage;
+        } else {
+            $commands[] = [
+                'name' => $name,
+                'class' => $class,
+                'description' => $description,
+            ];
+            $this->storage->putCommands($commands);
+            echo $this->successMessage;
         }
+
+    }
+
+    protected function isValid($arguments, $options)
+    {
+        return $arguments && $arguments[0];
+    }
+
+    protected function parseArguments($arguments, $options)
+    {
+        $class = isset($arguments[1]) ? $arguments[1] : null;
+
+        return [$arguments[0], $class];
     }
 }

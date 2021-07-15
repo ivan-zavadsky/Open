@@ -8,36 +8,39 @@ abstract class Command
 
     public function __construct(Storage $storage)
     {
+//        $this->name = strtolower(__CLASS__);
         $this->storage = $storage;
+//        $this->description = $this->storage->getCommands()[$this->name];
     }
 
-    abstract public function execute($arguments, $options);
+    public function execute($arguments, $options)
+    {
+        $commands = $this->storage->getCommands();
+        echo "$this->description\n";
+    }
 
     abstract protected function isValid($args, $params);
 
     abstract protected function parseArguments($args, $params);
 
-    protected function isRegistered($name)
+    protected function isExecutable($command)
     {
-        $commands = $this->storage->getCommands();
-        if (!array_key_exists($name, $commands)) {
-            echo "Command $name is not registered\n";
+        if (!class_exists($command['class'])) {
+            echo "Class " . $command['class'] . "doesn't exist. Add the class to use the command\n";
             return false;
         }
 
         return true;
     }
 
-    protected function isExecutable($name)
+    protected function getCommandByName($name)
     {
-        if (!class_exists($name)) {
-            echo "Class $name doesn't exist. Add the class to use the command\n";
-            return false;
+        $commands = $this->storage->getCommands();
+        foreach ($commands as $key => $value) {
+            if ($name == $value['name']) {
+                return $value;
+            }
         }
-
-        return true;
     }
 
 }
-
-//command_name {verbose,overwrite} [log_file=app.log] {unlimited} [methods={create,update,delete}] [paginate=50] {log}
