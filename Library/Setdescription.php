@@ -24,6 +24,10 @@ class Setdescription extends Command
 
     protected function isValid($arguments, $options)
     {
+        if (parent::help($arguments, __CLASS__)) {
+            return;
+        }
+
         return $arguments && $arguments[0] && $arguments[1];
     }
 

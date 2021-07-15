@@ -26,6 +26,10 @@ class Setname extends Command
 
     protected function isValid($args, $params)
     {
+        if (parent::help($args, __CLASS__)) {
+            return;
+        }
+
         $oldName = $args[0];
         $newName = $args[1];
         $oldIsRegistered = (bool) $this->getCommandByName($oldName);
@@ -45,6 +49,7 @@ class Setname extends Command
 
     protected function parseArguments($args, $params):array
     {
+
         return [$args[0], $args[1]];
     }
 }

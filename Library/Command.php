@@ -11,15 +11,24 @@ abstract class Command
         $this->storage = $storage;
     }
 
-    public function execute($arguments, $options)
-    {
-        $commands = $this->storage->getCommands();
-        echo "$this->description\n";
-    }
+    abstract function execute($arguments, $options);
 
     abstract protected function isValid($args, $params);
 
-    abstract protected function parseArguments($args, $params);
+    protected function help($args, $class = null)
+    {
+        if (count($args) == 1 && $args[0] == 'help') {
+            $commands = $this->storage->getCommands();
+            foreach ($commands as $command) {
+                if ($command['class'] == strtolower($class)) {
+                    echo "Description: " . $command['description'] . "\n";
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 
     protected function isExecutable($command)
     {

@@ -14,6 +14,10 @@ class Help extends Command
 
     protected function isValid($args, $params)
     {
+        if (parent::help($args, __CLASS__)) {
+            return;
+        }
+
         return true;
     }
 

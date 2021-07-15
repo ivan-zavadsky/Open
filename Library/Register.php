@@ -32,11 +32,17 @@ class Register extends Command
 
     protected function isValid($arguments, $options)
     {
+        if (parent::help($arguments, __CLASS__)) {
+            return;
+        }
+
         return $arguments && $arguments[0];
     }
 
     protected function parseArguments($arguments, $options)
     {
+        parent::parseArguments($arguments, $options);
+
         $class = isset($arguments[1]) ? $arguments[1] : null;
 
         return [$arguments[0], $class];

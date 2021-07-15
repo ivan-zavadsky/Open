@@ -34,21 +34,16 @@ class Library extends Command
 
     protected function isValid($args, $params = '')
     {
+        if (parent::help([$args], __CLASS__)) {
+            return;
+        }
+
         return true;
     }
 
     protected function parseArguments($args, $params = '')
     {
         return $this->parser->parse($args);
-    }
-
-    protected function listRegistered()
-    {
-        $commands = $this->storage->getCommands();
-        echo "Registered commands:\n";
-        foreach ($commands as $name => $description) {
-            echo "* $name\n";
-        }
     }
 
 }
