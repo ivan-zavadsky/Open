@@ -1,4 +1,5 @@
 <?php
+namespace Ivan\Console;
 
 abstract class Command
 {

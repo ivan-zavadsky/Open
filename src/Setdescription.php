@@ -1,4 +1,5 @@
 <?php
+namespace Ivan\Console;
 
 class Setdescription extends Command
 {

@@ -1,5 +1,7 @@
 <?php
-require_once 'Register.php';
+namespace Ivan\Console;
+
+//require_once 'Register.php';
 class Library extends Command
 {
     const STATUS_OK = 0;
