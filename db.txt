@@ -1,0 +1,1 @@
+{"0":{"name":"setname","class":"setname","description":"Sets new name (second argument) to existing command (first argument)"},"6":{"name":"c","class":"c","description":""},"8":{"name":"setd","class":"setdescription","description":"Sets description"},"9":{"name":"register","class":"register","description":""},"10":{"name":"help","class":"help","description":""}}
