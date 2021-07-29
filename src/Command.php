@@ -5,9 +5,9 @@ abstract class Command
 {
     public string $name;
     public string $description;
-    public Storage $storage;
+    public IStorage $storage;
 
-    public function __construct(Storage $storage)
+    public function __construct(IStorage $storage)
     {
         $this->storage = $storage;
     }

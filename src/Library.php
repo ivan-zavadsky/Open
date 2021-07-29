@@ -1,14 +1,13 @@
 <?php
 namespace Ivan\Console;
 
-//require_once 'Register.php';
 class Library extends Command
 {
     const STATUS_OK = 0;
 
     public Parser $parser;
 
-    public function __construct(Storage $storage, Parser $parser)
+    public function __construct(IStorage $storage, Parser $parser)
     {
         parent::__construct($storage);
         $this->parser = $parser;

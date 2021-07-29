@@ -11,5 +11,7 @@
             "email": "ivazin3@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+      "ext-json": "*"
+    }
 }
